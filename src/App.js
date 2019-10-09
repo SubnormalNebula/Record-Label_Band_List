@@ -2,6 +2,8 @@ import React from 'react';
 import axios from "axios"
 import './App.css';
 
+import RecordLabelList from "./components/RecordLabelList"
+
 
 class App extends React.Component {
 
@@ -63,7 +65,10 @@ class App extends React.Component {
         if (label.recordLabel){
           console.log(label.recordLabel); // For debugging 
           return(
-            null
+            <RecordLabelList
+              key={i}
+              label={label}
+            />
           )
         }
       }
