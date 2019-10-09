@@ -38,7 +38,7 @@ class App extends React.Component {
 
     if (!loaded) { // Check if the data has loaded from the API
       return("Loading...");
-    } else {
+    } else { // When data has loaded we can work with it
 
       var labelList = [];
       var exists = false;
@@ -95,7 +95,7 @@ class App extends React.Component {
       });
 
       
-      for (label of labelList) {
+      labelList.forEach((label) => {
 
         // Sort bands alphabetically
         label.bands = label.bands.sort( ( a, b ) => {
@@ -109,7 +109,7 @@ class App extends React.Component {
         });
 
         // Compare each band at a label then combine any duplicates
-        for (band of label.bands) {
+        label.bands.forEach( (band) => {
           label.bands.forEach( (band2, b2) => {
         
             if (band.name === band2.name && band !== band2){
@@ -120,8 +120,8 @@ class App extends React.Component {
               label.bands.splice(b2,1); // remove duplicate band
             } 
           });
-        }
-      }
+        });
+      });
 
       // Create a record lable entry one the page
       const createRecordLabel = ( label, i ) => { 
