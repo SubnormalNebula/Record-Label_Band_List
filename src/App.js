@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios"
 import './App.css';
 
-import RecordLabelList from "./components/RecordLabelList"
+import RecordLabel from "./components/RecordLabel"
 
 
 class App extends React.Component {
@@ -108,10 +108,10 @@ class App extends React.Component {
 
       console.log(labelList); // For debugging
 
-      const createRecordLabelList = ( label, i ) => {
+      const createRecordLabel = ( label, i ) => {
         console.log(label.recordLabel); // For debugging 
         return(
-          <RecordLabelList
+          <RecordLabel
             key={i}
             label={label}
           />
@@ -121,7 +121,7 @@ class App extends React.Component {
       return (
 
         <div className="App">
-          {labelList.map(createRecordLabelList)}
+          {labelList.map(createRecordLabel)}
         </div>
 
       );

@@ -1,14 +1,14 @@
 import React from "react"
-import BandList from "./BandList"
+import Band from "./Band"
 
 
 class RecordLabelList extends React.Component {  
 
     render(){   
 
-        const createBandList = ( band, i ) => {
+        const createBand = ( band, i ) => {
             return(
-                <BandList
+                <Band
                     key={i}
                     band={band}
                 />
@@ -18,7 +18,7 @@ class RecordLabelList extends React.Component {
         return(
             <div>
                 <div>{this.props.label.recordLabel}</div>
-                <div>{this.props.label.bands.map(createBandList)}</div>
+                <div>{this.props.label.bands.map(createBand)}</div>
             </div>
         )
     }
