@@ -7,6 +7,9 @@ import RecordLabelList from "./components/RecordLabelList"
 
 class App extends React.Component {
 
+  // Set the initial state with and empty array for the festival list
+  // and a boolean to make sure the data is only manipulated after it's 
+  // been loaded from the API
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +28,7 @@ class App extends React.Component {
         })
     }).catch(error => {
         console.log(error)
-    }) 
+    })
   }
 
   render() {
@@ -44,33 +47,75 @@ class App extends React.Component {
 
       for (var festival of festivalBandArray) {
         for (var band of festival.bands) {
-            for(label in labelList) {
-              if (labelList[label].recordLabel == band.recordLabel) {
-                exists = true;
-                break;
-              }
+          
+          if (!band.recordLabel)
+            band.recordLabel = "No Label";
+          
+          for(label in labelList){
+
+            if (labelList[label].recordLabel === band.recordLabel) {
+              exists = true;
+              break;
             }
+          }
+
           if (!exists) {
-            labelList.push({recordLabel: band.recordLabel, bands: [{name: band.name, festival: festival.name}]})
+
+            labelList.push({
+              recordLabel: band.recordLabel, 
+              bands: [{ 
+                name: band.name, festivals: [{ 
+                  name: festival.name 
+                }] 
+              }] 
+            })
+
           } else {
-            labelList[label].bands.push({name: band.name, festival: festival.name});
+
+            labelList[label].bands.push({ 
+              name: band.name, 
+              festivals: [{ 
+                name: festival.name 
+              }] 
+            });
+
             exists = false;
           }
         }
       }
 
+      labelList = labelList.sort( ( a, b ) => {
+        var x = a.recordLabel.toUpperCase();
+        var y = b.recordLabel.toUpperCase();
+        if (x < y) 
+          return -1;
+        if (x > y) 
+          return 1;
+        return 0;
+      });
+
+      for (label of labelList) {
+        label.bands = label.bands.sort( ( a, b ) => {
+          var x = a.name.toUpperCase();
+          var y = b.name.toUpperCase();
+          if (x < y) 
+            return -1;
+          if (x > y)
+            return 1;
+          return 0;
+        });
+      }
+
       console.log(labelList); // For debugging
 
       const createRecordLabelList = ( label, i ) => {
-        if (label.recordLabel){
-          console.log(label.recordLabel); // For debugging 
-          return(
-            <RecordLabelList
-              key={i}
-              label={label}
-            />
-          )
-        }
+        console.log(label.recordLabel); // For debugging 
+        return(
+          <RecordLabelList
+            key={i}
+            label={label}
+          />
+        )
       }
 
       return (
