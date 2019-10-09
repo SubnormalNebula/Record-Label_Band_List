@@ -5,7 +5,7 @@ class Festival extends React.Component {
     render(){
         return(
             <div className="Festival">
-                {this.props.festival.name}
+                {this.props.festival}
             </div>
         );
     }
