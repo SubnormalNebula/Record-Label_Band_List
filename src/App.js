@@ -20,7 +20,7 @@ class App extends React.Component {
 
   componentDidMount() {
 
-    // Get the data from the API
+    // Get the data from the API (this is running through CORS-anywhere because the API's CORS blocked access)
     axios.get("https://cors-anywhere.herokuapp.com/http://eacodingtest.digital.energyaustralia.com.au/api/v1/festivals")
     .then(response => {
         this.setState({
@@ -108,22 +108,22 @@ class App extends React.Component {
           return 0;
         });
 
-        // Compare each band at a label then combine any duplicates
         label.bands.forEach( (band) => {
           label.bands.forEach( (band2, b2) => {
-        
+
+            // Compare each band at a label then combine any duplicates
             if (band.name === band2.name && band !== band2){
-              for (var festival of band2.festivals) {
+              band2.festivals.forEach( (festival) => {
                 band.festivals.push(festival); // add festivals to one band entry
-              }
+              });
               band.festivals.sort(); // sort the festivals alphabetically
               label.bands.splice(b2,1); // remove duplicate band
-            } 
+            }
           });
         });
       });
 
-      // Create a record lable entry one the page
+      // Create a record lable entry on the page
       const createRecordLabel = ( label, i ) => { 
         return(
           <RecordLabel
